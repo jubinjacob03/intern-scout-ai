@@ -32,10 +32,16 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100 animate-fade-up">
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 relative overflow-hidden">
+      {/* Background Shape */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-1/2 -right-1/4 w-[800px] h-[800px] rounded-full bg-blue-50 transform rotate-45" />
+        <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-indigo-50 transform -rotate-45" />
+      </div>
+      
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md relative z-10 mx-4">
+        <div className="text-center space-y-2 mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">
             Welcome Back
           </h1>
           <p className="text-gray-600">
@@ -55,7 +61,6 @@ const Login = () => {
               onChange={(e) =>
                 setCredentials({ ...credentials, username: e.target.value })
               }
-              className="w-full px-4 py-2 transition-colors border rounded-lg focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500"
               required
             />
           </div>
@@ -70,13 +75,12 @@ const Login = () => {
               onChange={(e) =>
                 setCredentials({ ...credentials, password: e.target.value })
               }
-              className="w-full px-4 py-2 transition-colors border rounded-lg focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500"
               required
             />
           </div>
           <Button
             type="submit"
-            className="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full bg-primary hover:bg-primary/90"
           >
             Sign In
           </Button>
@@ -87,4 +91,3 @@ const Login = () => {
 };
 
 export default Login;
-

@@ -4,10 +4,10 @@ import { AppSidebar } from "./app-sidebar";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider defaultOpen={true}>
+    <SidebarProvider defaultOpen={false}>
       <div className="min-h-screen flex w-full bg-background">
         <AppSidebar />
-        <main className="flex-1 overflow-y-auto transition-all duration-300 ease-in-out">
+        <main className="flex-1 overflow-y-auto">
           <div className="container mx-auto p-4 md:p-6 lg:p-8 max-w-7xl">
             {children}
           </div>
@@ -16,4 +16,3 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     </SidebarProvider>
   );
 }
-
