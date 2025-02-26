@@ -15,10 +15,7 @@ const Login = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      credentials.username === "admin" &&
-      credentials.password === "admin123"
-    ) {
+    if (credentials.username === "admin" && credentials.password === "admin123") {
       localStorage.setItem("isAuthenticated", "true");
       toast({
         title: "Success",
@@ -35,17 +32,20 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="w-full max-w-md px-8 py-12 animate-fade-up">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
-          <p className="text-muted-foreground">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100 animate-fade-up">
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            Welcome Back
+          </h1>
+          <p className="text-gray-600">
             Sign in to access your recruitment dashboard
           </p>
         </div>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="username">
+            <label className="text-sm font-medium text-gray-700" htmlFor="username">
               Username
             </label>
             <Input
@@ -55,11 +55,12 @@ const Login = () => {
               onChange={(e) =>
                 setCredentials({ ...credentials, username: e.target.value })
               }
+              className="w-full px-4 py-2 transition-colors border rounded-lg focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500"
               required
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="password">
+            <label className="text-sm font-medium text-gray-700" htmlFor="password">
               Password
             </label>
             <Input
@@ -69,10 +70,14 @@ const Login = () => {
               onChange={(e) =>
                 setCredentials({ ...credentials, password: e.target.value })
               }
+              className="w-full px-4 py-2 transition-colors border rounded-lg focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500"
               required
             />
           </div>
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
+          >
             Sign In
           </Button>
         </form>
@@ -82,3 +87,4 @@ const Login = () => {
 };
 
 export default Login;
+
