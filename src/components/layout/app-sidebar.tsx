@@ -18,7 +18,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const menuItems = [
   { icon: Home, label: "Dashboard", path: "/dashboard" },
@@ -30,10 +30,12 @@ const menuItems = [
 ];
 
 export function AppSidebar() {
+  const location = useLocation();
+
   return (
     <Sidebar>
-      <SidebarHeader className="h-14 flex items-center px-6 border-b">
-        <span className="font-semibold">InternScout AI</span>
+      <SidebarHeader className="h-16 flex items-center px-6 border-b">
+        <span className="font-semibold text-lg tracking-tight">InternScout AI</span>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -42,7 +44,11 @@ export function AppSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.path}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    tooltip={item.label}
+                    isActive={location.pathname === item.path}
+                  >
                     <Link
                       to={item.path}
                       className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent"
