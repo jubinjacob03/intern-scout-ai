@@ -1,4 +1,3 @@
-
 import {
   BarChart3,
   Calendar,
@@ -17,6 +16,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Link, useLocation } from "react-router-dom";
 
@@ -33,36 +33,47 @@ export function AppSidebar() {
   const location = useLocation();
 
   return (
-    <Sidebar>
-      <SidebarHeader className="h-16 flex items-center px-6 border-b">
-        <span className="font-semibold text-lg tracking-tight">InternScout AI</span>
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Menu</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.path}>
-                  <SidebarMenuButton
-                    asChild
-                    tooltip={item.label}
-                    isActive={location.pathname === item.path}
-                  >
-                    <Link
-                      to={item.path}
-                      className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent"
+    <>
+      <div className="md:hidden fixed top-4 left-4 z-50">
+        <SidebarTrigger />
+      </div>
+
+      <Sidebar className="[&_[data-sidebar=sidebar]]:bg-sidebar [&_[data-sidebar=sidebar]]:text-sidebar-foreground">
+        <SidebarHeader className="h-16 flex items-center px-6 border-b border-sidebar-border">
+          <span className="font-semibold text-lg tracking-tight">InternScout AI</span>
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-sidebar-foreground/80">
+              Menu
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {menuItems.map((item) => (
+                  <SidebarMenuItem key={item.path}>
+                    <SidebarMenuButton
+                      asChild
+                      tooltip={item.label}
+                      isActive={location.pathname === item.path}
+                      className="hover:bg-accent hover:text-accent-foreground"
                     >
-                      <item.icon className="w-5 h-5" />
-                      <span>{item.label}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+                      <Link
+                        to={item.path}
+                        className="flex items-center gap-3 px-3 py-2 rounded-md"
+                      >
+                        <item.icon className="w-5 h-5 text-sidebar-foreground" />
+                        <span className="text-sidebar-foreground">
+                          {item.label}
+                        </span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+    </>
   );
 }

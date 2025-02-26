@@ -54,7 +54,7 @@ const Dashboard = () => {
   return (
     <div className="space-y-8 animate-fade-up">
       <div>
-        <h1 className="text-4xl font-bold tracking-tight mb-2">Welcome back</h1>
+        <h1 className="text-4xl font-bold tracking-tight mb-2 mt-10">Welcome back</h1>
         <p className="text-muted-foreground text-lg">
           Here's what's happening with your recruitment pipeline today.
         </p>
