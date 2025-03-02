@@ -19,7 +19,7 @@ const Login = () => {
       localStorage.setItem("isAuthenticated", "true");
       toast({
         title: "Success",
-        description: "Welcome back to InternScout AI",
+        description: "Welcome back to CEI NexHire",
       });
       navigate("/dashboard");
     } else {

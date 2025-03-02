@@ -39,13 +39,13 @@ export function AppSidebar() {
       </div>
 
       <Sidebar className="[&_[data-sidebar=sidebar]]:bg-sidebar [&_[data-sidebar=sidebar]]:text-sidebar-foreground">
-        <SidebarHeader className="h-16 flex items-center px-6 border-b border-sidebar-border">
-          <span className="font-semibold text-lg tracking-tight">InternScout AI</span>
+        <SidebarHeader className="h-14 flex items-center px-4 border-b border-sidebar-border">
+          <img src="./logo.png" alt="logo" className="max-h-full max-w-full" />
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel className="text-sidebar-foreground/80">
-              Menu
+            Menu
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>

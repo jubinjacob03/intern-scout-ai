@@ -72,9 +72,8 @@ const Dashboard = () => {
             <CardContent>
               <div className="text-2xl font-bold">{stat.value}</div>
               <div className="flex items-center gap-1 mt-1">
-                <span className={`flex items-center text-xs ${
-                  stat.trend === 'up' ? 'text-green-500' : 'text-red-500'
-                }`}>
+                <span className={`flex items-center text-xs ${stat.trend === 'up' ? 'text-green-500' : 'text-red-500'
+                  }`}>
                   {stat.trend === 'up' ? (
                     <ArrowUp className="h-3 w-3" />
                   ) : (
