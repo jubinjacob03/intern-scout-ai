@@ -1,36 +1,53 @@
-
+// src/pages/Login.tsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { authApi } from "@/api/auth-api";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (credentials.username === "admin" && credentials.password === "admin123") {
-      localStorage.setItem("isAuthenticated", "true");
-      toast({
-        title: "Success",
-        description: "Welcome back to CEI NexHire",
+    setIsLoading(true);
+
+    try {
+      const response = await authApi.login({
+        email: credentials.email,
+        password: credentials.password
       });
-      navigate("/dashboard");
-    } else {
-      toast({
-        title: "Error",
-        description: "Invalid credentials. Please try again.",
-        variant: "destructive",
-      });
+
+      // Store user data without sensitive information
+      const userData = {
+        id: response.data.data.user._id,
+        email: response.data.data.user.email,
+        role: response.data.data.user.role,
+        fullName: response.data.data.user.fullName
+      };
+
+      localStorage.setItem('user', JSON.stringify(userData));
+
+      // Redirect based on role
+      if (userData.role === 'super-admin') {
+        navigate('/admin-dashboard');
+      } else {
+        navigate('/dashboard');
+      }
+
+    } catch (error) {
+      // Error handling
+    } finally {
+      setIsLoading(false);
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 relative overflow-hidden">
       {/* Background Shape */}
@@ -38,7 +55,7 @@ const Login = () => {
         <div className="absolute -top-1/2 -right-1/4 w-[800px] h-[800px] rounded-full bg-blue-50 transform rotate-45" />
         <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-indigo-50 transform -rotate-45" />
       </div>
-      
+
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md relative z-10 mx-4">
         <div className="text-center space-y-2 mb-8">
           <h1 className="text-3xl font-bold text-gray-900">
@@ -51,15 +68,15 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700" htmlFor="username">
-              Username
+            <label className="text-sm font-medium text-gray-700" htmlFor="email">
+              Email
             </label>
             <Input
-              id="username"
-              type="text"
-              value={credentials.username}
+              id="email"
+              type="email"
+              value={credentials.email}
               onChange={(e) =>
-                setCredentials({ ...credentials, username: e.target.value })
+                setCredentials({ ...credentials, email: e.target.value })
               }
               required
             />
@@ -81,9 +98,19 @@ const Login = () => {
           <Button
             type="submit"
             className="w-full bg-primary hover:bg-primary/90"
+            disabled={isLoading}
           >
-            Sign In
+            {isLoading ? "Signing In..." : "Sign In"}
           </Button>
+          <div className="text-center mt-4">
+            <Button
+              variant="link"
+              onClick={() => navigate('/signup')}
+              className="text-primary hover:text-primary/80"
+            >
+              Create New Account (Super Admin Only)
+            </Button>
+          </div>
         </form>
       </div>
     </div>
