@@ -1,7 +1,8 @@
-// src/components/auth/protected-route.tsx
-import { Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AppLayout } from "../layout/app-layout";
-import { jwtDecode } from "jwt-decode";
+
+import { userApi } from "@/api/user-api";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -9,27 +10,57 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
-  const token = document.cookie.split('; ').find(row => row.startsWith('authToken='))?.split('=')[1];
+  const [isValidating, setIsValidating] = useState(true);
+  const navigate = useNavigate();
 
-  // Check token validity
-  if (!token || isTokenExpired(token)) {
+  useEffect(() => {
+    const verifyAuth = async () => {
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('authToken='))
+        ?.split('=')[1];
+
+      console.log(token);
+
+      if (!token) {
+        handleLogout();
+        return;
+      }
+
+      try {
+        const response = await userApi.verifyToken();
+        const user = response.data.data;
+        console.log(user);
+
+        if (allowedRoles && !allowedRoles.includes(user.role)) {
+          navigate('/dashboard');
+          return;
+        }
+
+      } catch (error) {
+        console.error(error);
+        handleLogout();
+      } finally {
+        setIsValidating(false);
+      }
+    };
+
+    verifyAuth();
+  }, [navigate, allowedRoles]);
+
+  const handleLogout = () => {
     localStorage.removeItem('user');
-    return <Navigate to="/login" replace />;
-  }
+    document.cookie = 'authToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    navigate('/login');
+  };
 
-  // Check role authorization
-  if (allowedRoles && allowedRoles.length > 0) {
-    const decodedToken = jwtDecode<{ role: string }>(token);
-    if (!allowedRoles.includes(decodedToken.role)) {
-      return <Navigate to="/dashboard" replace />;
-    }
-  }
+  if (isValidating) return <LoadingScreen />;
 
   return <AppLayout>{children}</AppLayout>;
 }
 
-function isTokenExpired(token: string) {
-  const decoded = jwtDecode<{ exp: number }>(token);
-  return decoded.exp * 1000 < Date.now();
-}
+const LoadingScreen = () => (
+  <div className="flex items-center justify-center h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+  </div>
+);
