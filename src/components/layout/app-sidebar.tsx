@@ -45,7 +45,7 @@ export function AppSidebar() {
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel className="text-sidebar-foreground/80">
-            Menu
+              Menu
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>

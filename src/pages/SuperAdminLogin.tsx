@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -19,14 +18,14 @@ export const SuperAdminLogin = ({ onSuccess }: { onSuccess: () => void }) => {
 
     try {
       const response = await authApi.login(credentials);
-      
+
       if (response.data.data.user.role !== 'super-admin') {
         throw new Error('Access denied');
       }
 
       localStorage.setItem('superAdminToken', response.data.data.token);
       onSuccess();
-      
+
     } catch (error) {
       toast({
         title: "Error",

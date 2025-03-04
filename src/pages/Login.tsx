@@ -1,4 +1,3 @@
-// src/pages/Login.tsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -24,30 +23,33 @@ const Login = () => {
         email: credentials.email,
         password: credentials.password
       });
+      console.log(response.data);
 
-      // Store user data without sensitive information
-      const userData = {
+      // Store minimal user data
+      localStorage.setItem('user', JSON.stringify({
         id: response.data.data.user._id,
-        email: response.data.data.user.email,
-        role: response.data.data.user.role,
-        fullName: response.data.data.user.fullName
-      };
+        role: response.data.data.user.role
+      }));
 
-      localStorage.setItem('user', JSON.stringify(userData));
+      toast({
+        title: "Success",
+        description: "Logged in successfully",
+        variant: "default",
+      });
 
-      // Redirect based on role
-      if (userData.role === 'super-admin') {
-        navigate('/admin-dashboard');
-      } else {
-        navigate('/dashboard');
-      }
+      navigate('/dashboard', { replace: true });
 
     } catch (error) {
-      // Error handling
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to login",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 relative overflow-hidden">
       {/* Background Shape */}

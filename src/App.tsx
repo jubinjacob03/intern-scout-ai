@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ProtectedRoute } from "./components/auth/protected-route";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -24,17 +24,17 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route
-            path="/signup"
-            element={
-              <ProtectedRoute allowedRoles={['super-admin']}>
-                <Signup />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/signup" element={
+            <ProtectedRoute allowedRoles={['super-admin']}>
+              <Signup />
+            </ProtectedRoute>
+          } />
           <Route
             path="/dashboard"
             element={
