@@ -29,6 +29,7 @@ apiClient.interceptors.response.use(
   error => {
     if (error.response?.status === 401) {
       localStorage.removeItem('user');
+      document.cookie = 'authToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
       window.location.href = '/login';
     }
     return Promise.reject(error);
