@@ -1,4 +1,3 @@
-// src/api/auth-api.ts
 import axios from 'axios';
 import { API_BASE_URL } from './api-client';
 import { User } from '@/types/user';

@@ -1,4 +1,3 @@
-// src/api/user-api.ts
 import axios from 'axios';
 import { API_BASE_URL } from './api-client';
 import { CreateUserData, UpdateUserData, User } from '@/types/user';
@@ -35,5 +34,8 @@ export const userApi = {
       `${API_BASE_URL}/api/v1/users/${id}`,
       { withCredentials: true }
     );
-  }
+  },
+  verifyToken: () =>
+    axios.get(`${API_BASE_URL}/api/v1/users/verify-token`,
+      { withCredentials: true }),
 };
