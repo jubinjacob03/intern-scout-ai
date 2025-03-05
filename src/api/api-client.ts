@@ -24,16 +24,10 @@ apiClient.interceptors.request.use(config => {
 });
 
 // Response interceptor
-apiClient.interceptors.response.use(
-  response => response,
-  error => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('user');
-      document.cookie = 'authToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
+apiClient.interceptors.request.use(config => {
+  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+  if (csrfToken) config.headers['X-CSRF-Token'] = csrfToken;
+  return config;
+});
 
 export default apiClient;

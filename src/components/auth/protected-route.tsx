@@ -20,13 +20,6 @@ export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) 
         .find(row => row.startsWith('authToken='))
         ?.split('=')[1];
 
-      console.log(token);
-
-      if (!token) {
-        handleLogout();
-        return;
-      }
-
       try {
         const response = await userApi.verifyToken();
         const user = response.data.data;
